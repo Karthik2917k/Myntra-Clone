@@ -22,16 +22,12 @@ function Cart() {
 
   let { data, msg, loading, error } = useSelector((store) => store.cart);
 
-  const array = [1, 2, 3, 4];
-
-  // ES6 Arrow Function Syntax
-
-  const TotalMrp = data.reduce(
+ const TotalMrp = data.reduce(
     (accumulator, item) => accumulator + item.qty * item.product.price,
     0
   );
-  console.log(TotalMrp);
-
+  // console.log(TotalMrp);
+  // console.log(data);
   let { email } = useSelector((store) => store.user.data);
   console.log(email);
   // const handleDeleteItem = (id) => {

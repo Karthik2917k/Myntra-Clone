@@ -12,7 +12,7 @@ import {
   useToast,
   Spinner,
 } from "@chakra-ui/react";
-import React from "react";
+import {useEffect} from "react";
 import Navbar from "../../components/Navbar";
 import { Formik, Field } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,7 +45,11 @@ function Signin() {
     }
     // console.log(error);
   };
-  
+  useEffect(()=>{
+    if (data.email) {
+      navigate("/");
+     }
+  },[data])
 
   return (
     <Box>

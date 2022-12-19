@@ -9,7 +9,7 @@ import axios from "axios";
 export const singleProd = (id) => async (dispatch) => {
   dispatch({ type: MENS_SINGLE_PRODUCT_LOADING });
   try {
-    let response = await axios.get(`http://localhost:8080/products/${id}`);
+    let response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/products/${id}`);
     dispatch({ type: MENS_SINGLE_PRODUCT_SUCCESS, payload: response.data });
   } catch (e) {
     dispatch({ type: MENS_SINGLE_PRODUCT_ERROR, payload: e.message });
