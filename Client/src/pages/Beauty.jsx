@@ -11,7 +11,7 @@ function Beauty() {
     const [loading,setLoading] = useState(true);
   const getData = async () => {
     setLoading(true)
-    let res = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/mens?category=oil`);
+    let res = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/products?category=oil`);
     setData([...res.data]);
     setLoading(false)
   };

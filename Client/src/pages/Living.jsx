@@ -11,7 +11,7 @@ function Living() {
   const [loading,setLoading] = useState(true);
   const getData = async () => {
     setLoading(true)
-    let res = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/mens?category=matress`);
+    let res = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/products?category=matress`);
     setData([...res.data]);
     setLoading(false)
   };

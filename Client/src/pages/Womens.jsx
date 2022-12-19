@@ -11,7 +11,7 @@ function Womens() {
     const [loading,setLoading] = useState(true);
     const getData = async() => {
         setLoading(true)
-        let res = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/mens?category=sarees`);
+        let res = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/products?category=sarees`);
         setData([...res.data])
         setLoading(false)
     }
