@@ -1,0 +1,25 @@
+//CART PRODUCTS
+
+export const CART_LOADING = "CART/LOADING";
+export const CART_SUCCESS = "CART/SUCCESS";
+export const CART_ERROR = "CART/ERROR";
+
+//CART Item removing
+
+export const CART_ITEM_REMOVING_lOADING = "CART/REMOVING/LOADING";
+export const CART_ITEM_REMOVING_SUCCESS = "CART/REMOVING/SUCCESS";
+export const CART_ITEM_REMOVING_ERROR = "CART/REMOVING/ERROR";
+
+
+//order Placing
+
+export const ORDER_lOADING = "ORDER/LOADING";
+export const ORDER_SUCCESS = "ORDER/SUCCESS";
+export const ORDER_ERROR = "ORDER/ERROR";
+
+
+//Add to cart
+export const  ADD_TO_CART_lOADING = "ADD_TO_CART_lOADING";
+export const  ADD_TO_CART_SUCCESS = "ADD_TO_CART_SUCCESS";
+export const  ADD_TO_CART_ERROR = "ADD_TO_CART_ERROR";
+export const ADD_TO_CART_RESET = "ADD_TO_CART_RESET";
