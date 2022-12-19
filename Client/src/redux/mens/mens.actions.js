@@ -8,20 +8,20 @@ import axios from "axios";
 
 //Blazers -GET
 
-export const mens = (str) => async (dispatch) => {
+export const mens = (page,str="") => async (dispatch) => {
   dispatch({ type: MENS_LOADING });
   try {
     if(str){
       
       let response = await axios.get(
-        `${process.env.REACT_APP_LOCAL_URL}/products${str}&page=1&limit=40`
+        `${process.env.REACT_APP_LOCAL_URL}/products${str}&page=${page}&limit=40`
 
       );
       dispatch({ type: MENS_SUCCESS, payload: response.data });
     }
     else{
       let response = await axios.get(
-        `${process.env.REACT_APP_LOCAL_URL}/products?page=1&limit=40`
+        `${process.env.REACT_APP_LOCAL_URL}/products?page=${page}&limit=40`
       );
       dispatch({ type: MENS_SUCCESS, payload: response.data });
     }

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Flex,
   Grid,
   GridItem,
   Image,
@@ -8,10 +9,11 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Spacer,
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -23,14 +25,15 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 function Mens() {
   let dispatch = useDispatch();
+  const [page,setpage]= useState(1)
   const { data, loading, error } = useSelector((store) => store.mens.product);
   const handlechange = (str) => {
-    dispatch(mens(str));
+    dispatch(mens(page,str));
   };
   
   useEffect(() => {
-    dispatch(mens());
-  }, []);
+    dispatch(mens(page));
+  }, [page]);
 
   return (
     <Box>
@@ -46,11 +49,11 @@ function Mens() {
             color={"#F687B3"}
           >
             <Menu>
-              <MenuButton as={"button"}>
-                <Button background={"none"} border="3px solid pink">
+              <MenuButton as={"button"} >
+                <Box p="5px" background={"none"} border="3px solid pink" borderRadius={"8px"}>
                   {" "}
                   Categories <ChevronDownIcon />
-                </Button>
+                </Box>
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => handlechange("?category=tshirts")}>
@@ -76,10 +79,10 @@ function Mens() {
             </Menu>
             <Menu>
               <MenuButton as={"button"}>
-                <Button background={"none"} border="3px solid pink">
+              <Box p="5px" background={"none"} border="3px solid pink" borderRadius={"8px"}>
                   {" "}
                   Price <ChevronDownIcon />
-                </Button>
+                </Box>
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => handlechange(`?category=sweaters&sort=asc`)}>ASC</MenuItem>
@@ -92,10 +95,10 @@ function Mens() {
             </Menu>
             <Menu>
               <MenuButton as={"button"}>
-                <Button background={"none"} border="3px solid pink">
+              <Box p="5px" background={"none"} border="3px solid pink" borderRadius={"8px"}>
                   {" "}
                   Brand <ChevronDownIcon />
-                </Button>
+                </Box>
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => handlechange("?brand=IVOC")}>
@@ -218,6 +221,14 @@ function Mens() {
                 );
               })}
           </Grid>
+
+          <Flex justifyContent={"center"} w="130px" m="auto" alignItems="center" my="30px">
+            <Button fontSize="3xl" fontWeight={"bold"} disabled={page<=1} onClick={()=>setpage(page-1)}>-</Button>
+            <Spacer/>
+            <Text color={"pink.400"} fontSize="3xl" fontWeight={"bold"}>{page}</Text>
+            <Spacer/>
+            <Button fontSize="3xl" fontWeight={"bold"} onClick={()=>setpage(page+1)}>+</Button>
+          </Flex>
         </Box>
       )}
       <Footer/>

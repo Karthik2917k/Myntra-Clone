@@ -94,7 +94,9 @@ server.delete("/placeorder", async (req, res) => {
   try {
     let Delete = await Cart.deleteMany({ token });
     console.log(Delete);
-    res.status(201).send(`Products Placed Successfully`);
+    if(Delete.deletedCount>=1) return res.status(201).send("Products placed successfully");
+    return res.status(201).send("Please add atleast one product");
+    
   } catch (e) {
     return res.status(404).send(e.message);
   }
@@ -109,7 +111,7 @@ const Middleware = async (req, res, next) => {
     let prod = await Product.findOne({ _id: product });
     let qty = prod.quantity + 1;
     if (cart.qty > 1) {
-      let cartQty = cart.qty-1;
+      let cartQty = cart.qty - 1;
       let update = await Product.updateOne(
         { _id: product },
         { $set: { quantity: qty } }
@@ -119,12 +121,12 @@ const Middleware = async (req, res, next) => {
         { $set: { qty: cartQty } }
       );
       return res.status(201).send("Quatity Decresed Success");
-    }else{
+    } else {
       let update = await Product.updateOne(
         { _id: product },
         { $set: { quantity: qty } }
       );
-      let Delete = await Cart.deleteOne({_id:cart._id} );
+      let Delete = await Cart.deleteOne({ _id: cart._id });
       return res.status(200).send("Product removed from cart");
     }
   } catch (err) {
@@ -136,12 +138,19 @@ server.post("/decrese", Middleware);
 
 server.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  const prod = await Cart.findById({ _id: id });
-  if (prod) {
+  console.log(id);
+  try {
+    const prod = await Cart.findOne({ _id: id });
+    const product = await Product.findOne({ _id: prod.product });
+    let qty = product.quantity + prod.qty;
     let Delete = await Cart.deleteOne({ _id: id });
+    let update = await Product.updateOne(
+      { _id: product },
+      { $set: { quantity: qty } }
+    );
     res.status(200).send(`Item deleted successfully`);
-  } else {
-    res.status(401).send("Id Not found");
+  } catch (e) {
+    res.status(401).send(e.message);
   }
 });
 

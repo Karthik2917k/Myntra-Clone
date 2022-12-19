@@ -12,40 +12,78 @@ import {
   Image,
   Spacer,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { cartproducts } from "../../redux/Cart/cart.actions";
+import {
+  addtocart,
+  cartproddecrease,
+  cartproducts,
+  cartReset,
+  deletecart,
+  orderplacing,
+} from "../../redux/Cart/cart.actions";
+import { useNavigate } from "react-router-dom";
 function Cart() {
+  const navigate = useNavigate();
   let dispatch = useDispatch();
-
+  const toast = useToast();
+  let { email } = useSelector((store) => store.user.data);
   let { data, msg, loading, error } = useSelector((store) => store.cart);
 
- const TotalMrp = data.reduce(
+  if (msg) {
+    toast({
+      title: msg,
+      status: msg === "Product is out of stock" ? "error":msg==="Please add atleast one product"?"error":"success",
+      duration: 5000,
+      isClosable: true,
+    });
+    dispatch(cartReset());
+  }
+  const TotalMrp = data.reduce(
     (accumulator, item) => accumulator + item.qty * item.product.price,
     0
   );
-  // console.log(TotalMrp);
-  // console.log(data);
-  let { email } = useSelector((store) => store.user.data);
-  console.log(email);
-  // const handleDeleteItem = (id) => {
-  //   let del= {_id:id};
-  //   console.log(del)
-  //   try{
-  //     dispatch(deleteCart(del))
-  //   }
-  //   catch(e){
-  //     console.log(e)
-  //   }
-  // }
-  // console.log(cart)
+  const handleIncrease = (inf) => {
+    if (inf.token === undefined) {
+      navigate("/signin");
+    }
+    dispatch(addtocart(inf));
+  };
+
+  const handleDecrease = (inf) => {
+    if (inf.token === undefined) {
+      navigate("/signin");
+    }
+    dispatch(cartproddecrease(inf));
+  };
+  const handlePlaceOrder = (email) => {
+    if (email === undefined) {
+      navigate("/signin");
+    }
+    dispatch(orderplacing(email));
+    if (msg === "Products placed successfully") navigate("/");
+    };
+  const handleDeleteItem = (id) => {
+    try {
+      console.log(id);
+      dispatch(deletecart(id, email));
+      toast({
+        title: "Product deleted successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
     dispatch(cartproducts(email));
   }, []);
-  console.log(data);
-  let total = 2;
+  console.log(email);
   return (
     <Box fontFamily={"sans-serif"}>
       <Navbar />
@@ -168,6 +206,13 @@ function Cart() {
                           <Button
                             background={"none"}
                             _hover={{ background: "none" }}
+                            onClick={() =>
+                              handleDecrease({
+                                inf: { user: item.user, product: item.product },
+
+                                token: email,
+                              })
+                            }
                           >
                             -
                           </Button>
@@ -175,6 +220,13 @@ function Cart() {
                           <Button
                             background={"none"}
                             _hover={{ background: "none" }}
+                            onClick={() =>
+                              handleIncrease({
+                                inf: { user: item.user, product: item.product },
+
+                                token: email,
+                              })
+                            }
                           >
                             +
                           </Button>
@@ -186,6 +238,7 @@ function Cart() {
                         <Button
                           background={"none"}
                           _hover={{ background: "none" }}
+                          onClick={() => handleDeleteItem(item._id)}
                         >
                           ❌
                         </Button>
@@ -253,6 +306,7 @@ function Cart() {
               _hover={{ background: "pink" }}
               color="#FFFFFF"
               p="0 40px"
+              onClick={() => handlePlaceOrder(email)}
             >
               Place Order
             </Button>
