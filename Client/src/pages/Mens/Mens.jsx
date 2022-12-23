@@ -27,7 +27,7 @@ function Mens() {
   const { data, loading, error, length } = useSelector(
     (store) => store.products
   );
-  // console.log(Math.ceil(length/40))
+  console.log(data)
   const el = Math.ceil(length / 40);
   const pagination = new Array(el).fill(0);
   console.log(pagination);
