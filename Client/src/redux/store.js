@@ -1,11 +1,11 @@
 import {combineReducers,applyMiddleware,compose,legacy_createStore} from "redux";
 import thunk from "redux-thunk";
 import { cartReducer } from "./Cart/cart.reducer";
-import { mensReducer } from "./mens/mens.reducer";
+import { productReducer } from "./mens/mens.reducer";
 import { singleReducer } from "./singleProduct/prod.reducer";
 import { userReducer } from "./user/user.reducer";
 const rootReducer = combineReducers({
-    mens:mensReducer,
+    products:productReducer,
     prod:singleReducer,
     user:userReducer,
    cart:cartReducer

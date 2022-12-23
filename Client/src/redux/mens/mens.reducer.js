@@ -7,37 +7,36 @@ import {
 
 } from "./mens.actionType.js";
 const initialState = {
-  product: {
-    loading: false,
-    data: [],
-    error: false,
-  },
+  loading: false,
+  data: [],
+  error: false,
+  length:0
 };
 
-export const mensReducer = (state = initialState, { type, payload }) => {
+export const productReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     //MENS-LOADING
 
     case MENS_LOADING: {
-      return { ...state, product: { loading: true } };
+      return { ...state, loading: true  };
     }
     //MENS-SUCCESS
     case MENS_SUCCESS: {
       return {
         ...state,
 
-        product: { data: payload, loading: false },
+         data: payload.data,length:payload.length, loading: false ,
       };
     }
     //MENS-ERROR
     case MENS_ERROR: {
-      return { ...state, product: { loading: false, error: true } };
+      return { ...state, loading: false, error: true,length:0 };
     }
     //MENS-RESET
     case MENS_RESET: {
       return {
         ...state,
-        product: { data: [], loading: false, error: false },
+        data: [], loading: false, error: false ,length:0,
       };
     }
 

@@ -9,13 +9,11 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Spacer,
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -25,137 +23,168 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 function Mens() {
   let dispatch = useDispatch();
-  const [page,setpage]= useState(1)
-  const { data, loading, error } = useSelector((store) => store.mens.product);
+  const [page, setpage] = useState(1);
+  const { data, loading, error, length } = useSelector(
+    (store) => store.products
+  );
+  // console.log(Math.ceil(length/40))
+  const el = Math.ceil(length / 40);
+  const pagination = new Array(el).fill(0);
+  console.log(pagination);
   const handlechange = (str) => {
-    dispatch(mens(page,str));
+    dispatch(mens(page, str));
   };
-  
+
   useEffect(() => {
     dispatch(mens(page));
   }, [page]);
 
   return (
     <Box>
-        <Navbar/>
-      
-        
-          <Box
-            display={"flex"}
-            w="100%"
-            gap={3}
-            p={{base:"10px",sm:"20px 10px",md:"20px 40px"}}
-            justifyContent={"flex-end"}
-            color={"#F687B3"}
-          >
-            <Menu>
-              <MenuButton as={"button"} >
-                <Box p="5px" background={"none"} border="3px solid pink" borderRadius={"8px"}>
-                  {" "}
-                  Categories <ChevronDownIcon />
-                </Box>
-              </MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => handlechange("?category=tshirts")}>
-                  Tshirts
-                </MenuItem>
+      <Navbar />
 
-                <MenuItem onClick={() => handlechange("?category=mentrousers")}>
-                  Trousers
-                </MenuItem>
+      <Box
+        display={"flex"}
+        w="100%"
+        gap={3}
+        p={{ base: "10px", sm: "20px 10px", md: "20px 40px" }}
+        justifyContent={"flex-end"}
+        color={"#F687B3"}
+      >
+        <Menu>
+          <MenuButton as={"button"}>
+            <Box
+              p="5px"
+              background={"none"}
+              border="3px solid pink"
+              borderRadius={"8px"}
+            >
+              {" "}
+              Categories <ChevronDownIcon />
+            </Box>
+          </MenuButton>
+          <MenuList>
+            <MenuItem onClick={() => handlechange("?category=tshirts")}>
+              Tshirts
+            </MenuItem>
 
-                <MenuItem onClick={() => handlechange("?category=shoes")}>
-                  Shoes
-                </MenuItem>
+            <MenuItem onClick={() => handlechange("?category=mentrousers")}>
+              Trousers
+            </MenuItem>
 
-                <MenuItem onClick={() => handlechange("?category=sweaters")}>
-                  Sweaters
-                </MenuItem>
+            <MenuItem onClick={() => handlechange("?category=shoes")}>
+              Shoes
+            </MenuItem>
 
-                <MenuItem onClick={() => handlechange("?category=mensblazers")}>
-                  Mensblazers
-                </MenuItem>
-              </MenuList>
-            </Menu>
-            <Menu>
-              <MenuButton as={"button"}>
-              <Box p="5px" background={"none"} border="3px solid pink" borderRadius={"8px"}>
-                  {" "}
-                  Price <ChevronDownIcon />
-                </Box>
-              </MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => handlechange(`?category=sweaters&sort=asc`)}>ASC</MenuItem>
-                <MenuItem onClick={() => handlechange(`?category=sweaters&sort=des`)}>DES</MenuItem>
-                {/* <MenuItem>500 Above</MenuItem>
+            <MenuItem onClick={() => handlechange("?category=sweaters")}>
+              Sweaters
+            </MenuItem>
+
+            <MenuItem onClick={() => handlechange("?category=mensblazers")}>
+              Mensblazers
+            </MenuItem>
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuButton as={"button"}>
+            <Box
+              p="5px"
+              background={"none"}
+              border="3px solid pink"
+              borderRadius={"8px"}
+            >
+              {" "}
+              Price <ChevronDownIcon />
+            </Box>
+          </MenuButton>
+          <MenuList>
+            <MenuItem
+              onClick={() => handlechange(`?category=sweaters&sort=asc`)}
+            >
+              ASC
+            </MenuItem>
+            <MenuItem
+              onClick={() => handlechange(`?category=sweaters&sort=des`)}
+            >
+              DES
+            </MenuItem>
+            {/* <MenuItem>500 Above</MenuItem>
                 <MenuItem>500 Below</MenuItem>
                 <MenuItem>1000 Above</MenuItem>
                 <MenuItem>1000 Below</MenuItem> */}
-              </MenuList>
-            </Menu>
-            <Menu>
-              <MenuButton as={"button"}>
-              <Box p="5px" background={"none"} border="3px solid pink" borderRadius={"8px"}>
-                  {" "}
-                  Brand <ChevronDownIcon />
-                </Box>
-              </MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => handlechange("?brand=IVOC")}>
-                  IVOC
-                </MenuItem>
-                <MenuItem onClick={() => handlechange("?brand=DENNISON")}>
-                  DENNISON
-                </MenuItem>
-                <MenuItem onClick={() => handlechange("?brand=Roadster")}>
-                  Roadstar
-                </MenuItem>
-                <MenuItem onClick={() => handlechange("?brand=WROGN")}>
-                  WROGN
-                </MenuItem>
-                <MenuItem onClick={() => handlechange("?brand=Provogue")}>
-                  Provogue
-                </MenuItem>
-                <MenuItem onClick={() => handlechange("?brand=ADIDAS")}>
-                  ADIDAS
-                </MenuItem>
-                <MenuItem onClick={() => handlechange("?brand=KRA")}>
-                  KRA
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuButton as={"button"}>
+            <Box
+              p="5px"
+              background={"none"}
+              border="3px solid pink"
+              borderRadius={"8px"}
+            >
+              {" "}
+              Brand <ChevronDownIcon />
+            </Box>
+          </MenuButton>
+          <MenuList>
+            <MenuItem onClick={() => handlechange("?brand=IVOC")}>
+              IVOC
+            </MenuItem>
+            <MenuItem onClick={() => handlechange("?brand=DENNISON")}>
+              DENNISON
+            </MenuItem>
+            <MenuItem onClick={() => handlechange("?brand=Roadster")}>
+              Roadstar
+            </MenuItem>
+            <MenuItem onClick={() => handlechange("?brand=WROGN")}>
+              WROGN
+            </MenuItem>
+            <MenuItem onClick={() => handlechange("?brand=Provogue")}>
+              Provogue
+            </MenuItem>
+            <MenuItem onClick={() => handlechange("?brand=ADIDAS")}>
+              ADIDAS
+            </MenuItem>
+            <MenuItem onClick={() => handlechange("?brand=KRA")}>KRA</MenuItem>
+          </MenuList>
+        </Menu>
       </Box>
 
       {loading === true ? (
         <Box m="100px auto" display={"flex"} justifyContent="center">
           <Spinner
-        thickness='4px'
-        speed='0.65s'
-        emptyColor='gray.200'
-        color='pink.500'
-        size='xl'
-      />
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="pink.500"
+            size="xl"
+          />
         </Box>
       ) : error === true ? (
         <Box m="100px auto" display={"flex"} justifyContent="center">
-         
-      <video loading="lazy" muted="muted" src="https://cdnl.iconscout.com/lottie/premium/thumb/error-mark-3767444-3162438.mp4" type="video/mp4" autoplay="autoplay" loop="loop"></video>
+          <video
+            loading="lazy"
+            muted="muted"
+            src="https://cdnl.iconscout.com/lottie/premium/thumb/error-mark-3767444-3162438.mp4"
+            type="video/mp4"
+            autoplay="autoplay"
+            loop="loop"
+          ></video>
         </Box>
       ) : (
         <Box w="90%" m=" 50px auto">
           <Grid
             gridTemplateColumns={{
-              base: 'repeat(1, 1fr)',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(4, 1fr)',
+              base: "repeat(1, 1fr)",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(4, 1fr)",
             }}
-            gap={{ base: '8', sm: '12', md: '16' }}
+            gap={{ base: "8", sm: "12", md: "16" }}
           >
             {data &&
               data.map((prod) => {
                 return (
-                  <Link to={`/mens/${prod._id}`} key={prod._id}>
+                  <Link to={`/product/${prod._id}`} key={prod._id}>
                     <GridItem
                       backgroundColor={"#FFFFFF"}
                       _hover={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
@@ -222,16 +251,31 @@ function Mens() {
               })}
           </Grid>
 
-          <Flex justifyContent={"center"} w="130px" m="auto" alignItems="center" my="30px">
-            <Button fontSize="3xl" fontWeight={"bold"} disabled={page<=1} onClick={()=>setpage(page-1)}>-</Button>
-            <Spacer/>
-            <Text color={"pink.400"} fontSize="3xl" fontWeight={"bold"}>{page}</Text>
-            <Spacer/>
-            <Button fontSize="3xl" fontWeight={"bold"} onClick={()=>setpage(page+1)}>+</Button>
-          </Flex>
+          <Grid
+            templateColumns={{base:"repeat(7,1fr)",sm:"repeat(10,1fr)",md:"repeat(20,1fr)"}}
+            
+            gap={5}
+            my="30px"
+          >
+            <Button color={"#ffffff"} borderRadius={2} backgroundColor={"blue"} disabled={page===1} onClick={()=>setpage(page-1)}>Prev</Button>
+            {pagination &&
+              pagination.map((item, i) => {
+                return (
+                  <Button
+                    key={i}
+                    color={"#ffffff"} borderRadius={2} backgroundColor={"blue"}
+                    disabled={page === i + 1}
+                    onClick={() => setpage(i + 1)}
+                  >
+                    {i + 1}
+                  </Button>
+                );
+              })}
+              <Button  color={"#ffffff"} borderRadius={2} backgroundColor={"blue"} disabled={page===pagination.length} onClick={()=>setpage(page+1)}>Next</Button>
+          </Grid>
         </Box>
       )}
-      <Footer/>
+      <Footer />
     </Box>
   );
 }

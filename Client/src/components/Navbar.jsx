@@ -20,6 +20,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { BsSearch } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { userReset } from "../redux/user/user.action";
@@ -33,18 +34,31 @@ const Links = [
 export default function Navbar({ user = "" }) {
   let dispatch = useDispatch();
   let usser = useSelector((store) => store.user.data);
-  const [userData,setUserData] = useState({});
-  const [state,setState] = useState(true);
+  const [search, setSearchdata] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [val, setValue] = useState("");
+  const [len, setLen] = useState(0);
+  const [state, setState] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleSearch = (e) => {
+    let data = axios
+      .get(`http://localhost:8080/products/search?search=${e.target.value}`)
+      .then((res) => setSearchdata(res.data.data))
+      .catch((e) => console.log("error"));
+    console.log(e.target.value);
+    setValue(e.target.value);
+    setLen(search.length)
+  };
   const handleLogout = () => {
     dispatch(userReset());
     setState(!state);
   };
-  useEffect(()=>{
-    if(user.email){
-      setUserData(user)
+  useEffect(() => {
+    if (user.email) {
+      setUserData(user);
     }
-  },[user])
+  }, [user]);
+  console.log(search);
   return (
     <>
       <Box
@@ -113,9 +127,10 @@ export default function Navbar({ user = "" }) {
                 />
                 <Input
                   type="tel"
-                  placeholder="Search for mens"
+                  placeholder="Search for products..."
                   w="500px"
                   focusBorderColor="none"
+                  onChange={(e) => handleSearch(e)}
                 />
               </InputGroup>
             </HStack>
@@ -129,7 +144,10 @@ export default function Navbar({ user = "" }) {
                 cursor={"pointer"}
                 minW={0}
               >
-                <Avatar size={"sm"} src={usser.pic||"https://i.ibb.co/Jd12z6R/user.png"} />
+                <Avatar
+                  size={"sm"}
+                  src={usser.pic || "https://i.ibb.co/Jd12z6R/user.png"}
+                />
               </MenuButton>
               <MenuList>
                 {usser.email ? (
@@ -143,7 +161,7 @@ export default function Navbar({ user = "" }) {
                     <Link>
                       <MenuItem>Help</MenuItem>
                     </Link>
-                    <MenuItem onClick={()=>handleLogout()}>Logout</MenuItem>
+                    <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
                   </>
                 ) : (
                   <>
@@ -188,6 +206,32 @@ export default function Navbar({ user = "" }) {
             </Stack>
           </Box>
         ) : null}
+
+        {val && (
+          <Box
+          display={{base:"none",sm:"none",md:"block"}}
+            background={"#ffffff"}
+            p="20px"
+            boxShadow="rgba(0, 0, 0, 0.05) 0px 0px 0px 1px"
+            position="absolute"
+            top="55px"
+            left="43%"
+            right="22%"
+          >
+            {search &&
+              len>=1?search.map((item, i) => {
+                return (
+                  <Link to={`/product/${item._id}`}>
+                  <Flex mb="20px">
+                    <Avatar src={item.image} />
+                    <Text>{item.productname}</Text>
+                  </Flex>
+                  </Link>
+                );
+              }):<Box>No results found</Box>
+            }
+          </Box>
+        )}
       </Box>
     </>
   );
