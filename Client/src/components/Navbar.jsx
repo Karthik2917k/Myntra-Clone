@@ -42,7 +42,7 @@ export default function Navbar({ user = "" }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleSearch = (e) => {
     let data = axios
-      .get(`http://localhost:8080/products/search?search=${e.target.value}`)
+      .get(`${process.env.REACT_APP_LOCAL_URL}/products/search?search=${e.target.value}`)
       .then((res) => setSearchdata(res.data.data))
       .catch((e) => console.log("error"));
     console.log(e.target.value);
