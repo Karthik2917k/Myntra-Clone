@@ -14,7 +14,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,12 +26,13 @@ import {
   orderplacing,
 } from "../../redux/Cart/cart.actions";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
 function Cart() {
   const navigate = useNavigate();
   let dispatch = useDispatch();
   const toast = useToast();
   let { email } = useSelector((store) => store.user.data);
-  let { data, msg, loading, error } = useSelector((store) => store.cart);
+  let { data, msg } = useSelector((store) => store.cart);
 
   if (msg) {
     toast({
@@ -42,8 +43,16 @@ function Cart() {
     });
     dispatch(cartReset());
   }
+
+  if(msg === "Order Placed successfully"){
+    navigate("/");
+  }
   const TotalMrp = data.reduce(
     (accumulator, item) => accumulator + item.qty * item.product.price,
+    0
+  );
+  const totalProducts = data.reduce(
+    (accumulator, item) => accumulator + item.qty,
     0
   );
   const handleIncrease = (inf) => {
@@ -59,12 +68,12 @@ function Cart() {
     }
     dispatch(cartproddecrease(inf));
   };
-  const handlePlaceOrder = (email) => {
-    if (email === undefined) {
+  const handlePlaceOrder = (inf) => {
+    if (inf.email === undefined) {
       navigate("/signin");
     }
-    dispatch(orderplacing(email));
-    if (msg === "Products placed successfully") navigate("/");
+    dispatch(orderplacing(inf));
+    
     };
   const handleDeleteItem = (id) => {
     try {
@@ -87,7 +96,7 @@ function Cart() {
   return (
     <Box fontFamily={"sans-serif"}>
       <Navbar />
-      <Grid
+      {data.length>=1?<Grid
         w={{ base: "90%", sm: "80%", md: "80%" }}
         m="auto"
         mt={{ base: "50px", sm: "80px ", md: "100px" }}
@@ -306,13 +315,15 @@ function Cart() {
               _hover={{ background: "pink" }}
               color="#FFFFFF"
               p="0 40px"
-              onClick={() => handlePlaceOrder(email)}
+              onClick={() => handlePlaceOrder({email,products:totalProducts,amount:TotalMrp})}
             >
               Place Order
             </Button>
           </Box>
         </GridItem>
-      </Grid>
+      </Grid>:<Flex h="90vh" justifyContent={"center"} alignItems={"center"}>
+        <Image src="https://cdn3d.iconscout.com/3d/premium/thumb/ecommerce-website-5482226-4569699.png"></Image></Flex>}
+        <Footer/>
     </Box>
   );
 }

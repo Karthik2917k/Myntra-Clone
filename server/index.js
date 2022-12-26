@@ -12,10 +12,11 @@ server.use("/products", ProductRouter);
 const UserRouter = require("./Features/Users/users.router.js");
 server.use("/user",UserRouter); 
 //cart 
-
-const cartRouter = require("./Features/cart/cart.route.js")
-
+const cartRouter = require("./Features/cart/cart.route.js");
 server.use("/cart",cartRouter);
+//admin
+const adminRouter = require("./Features/admin/admin.route.js");
+server.use("/admin", adminRouter);
 
 server.get("/", (req, res) => {
   res.send("Welcome to Myntra");

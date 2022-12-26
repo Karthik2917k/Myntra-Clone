@@ -108,10 +108,6 @@ function Mens() {
             >
               DES
             </MenuItem>
-            {/* <MenuItem>500 Above</MenuItem>
-                <MenuItem>500 Below</MenuItem>
-                <MenuItem>1000 Above</MenuItem>
-                <MenuItem>1000 Below</MenuItem> */}
           </MenuList>
         </Menu>
         <Menu>
@@ -186,10 +182,13 @@ function Mens() {
                 return (
                   <Link to={`/product/${prod._id}`} key={prod._id}>
                     <GridItem
+                    h="450px"
+                    w="300px"
+                    border={"1px solid lightgrey"}
                       backgroundColor={"#FFFFFF"}
-                      _hover={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+                      _hover={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",height:"450px" }}
                     >
-                      <Box border={"1px solid lightgrey"} borderBottom={"none"}>
+                      <Box borderBottom={"1px solid lightgrey"}>
                         <Image
                           h="300px"
                           w="300px"
@@ -199,7 +198,7 @@ function Mens() {
                       </Box>
                       <hr />
 
-                      <Box border={"1px solid lightgrey"} p="10px">
+                      <Box  p="10px">
                         <Box>
                           <Text>{prod.brand}</Text>
                           <Box display="flex" alignItems="center">

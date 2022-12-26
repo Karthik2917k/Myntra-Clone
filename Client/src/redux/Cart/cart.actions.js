@@ -59,14 +59,15 @@ export const cartproddecrease = (inf) => async (dispatch) => {
 };
 
 
-export const orderplacing = (email) =>async (dispatch) =>{
+export const orderplacing = (inf) =>async (dispatch) =>{
   dispatch({ type: ORDER_lOADING });
+  const body={amount:inf.amount,products:inf.products}
   try {
-    let response = await axios.delete(`${process.env.REACT_APP_LOCAL_URL}/cart/placeorder`, {
-      headers: { token: email },
+    let response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/cart/placeorder`, body,{
+      headers: { token: inf.email },
     });
     dispatch({ type: ORDER_SUCCESS, payload: response.data });
-    dispatch(cartproducts(email));
+    dispatch(cartproducts(inf.email));
   } catch (e) {
     dispatch({ type: ORDER_ERROR, payload: e.response.data });
   }

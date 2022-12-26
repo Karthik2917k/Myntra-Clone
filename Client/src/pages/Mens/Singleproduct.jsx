@@ -52,7 +52,7 @@ function Singleproduct() {
   };
   useEffect(() => {
     dispatch(singleProd(id));
-  }, []);
+  }, [id]);
   if (loading) {
     return <Text>Loading....</Text>;
   }
