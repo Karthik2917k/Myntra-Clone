@@ -24,8 +24,8 @@ server.post("/signup", async (req, res) => {
 server.post("/signin", async (req, res) => {
   let { password, email } = req.body;
   try {
-    let user = await User.findOne({ email,password });
-    if(user.email){
+    let user = await User.findOne({ email, password });
+    if (user.email) {
       return res.send(user);
     }
   } catch (e) {
@@ -34,9 +34,17 @@ server.post("/signin", async (req, res) => {
 });
 
 server.get("/", async (req, res) => {
+  const { limit, page } = req.query;
   try {
-    let users = await User.find();
-    return res.status(200).send(users);
+    if (limit && page) {
+      let users = await User.find()
+        .skip((page - 1) * limit)
+        .limit(limit);
+      return res.status(200).send(users);
+    } else {
+      let users = await User.find();
+      return res.status(200).send(users);
+    }
   } catch {
     res.status(404).send(e.message);
   }
