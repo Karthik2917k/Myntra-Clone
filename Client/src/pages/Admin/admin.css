@@ -1,0 +1,17 @@
+.box{
+    margin:10px;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#007bff;
+    color:#FFF;
+    font-size: 25px;
+    font-weight: 700;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 10px;
+}
+.box:hover{
+    box-shadow: rgba(187, 187, 191, 0.25) 0px 30px 60px -12px inset, rgba(176, 174, 174, 0.3) 0px 18px 36px -18px inset;
+}

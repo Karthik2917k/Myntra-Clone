@@ -168,7 +168,7 @@ function Mens() {
           ></video>
         </Box>
       ) : (
-        <Box w="90%" m=" 50px auto">
+        <Box w="90%" m="auto" my="25px">
           <Grid
             gridTemplateColumns={{
               base: "repeat(1, 1fr)",
@@ -183,21 +183,22 @@ function Mens() {
                   <Link to={`/product/${prod._id}`} key={prod._id}>
                     <GridItem
                     h="450px"
-                    w="300px"
+                    
                     border={"1px solid lightgrey"}
                       backgroundColor={"#FFFFFF"}
                       _hover={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",height:"450px" }}
                     >
                       <Box borderBottom={"1px solid lightgrey"}>
+                        <figure>
                         <Image
                           h="300px"
-                          w="300px"
+                          w="100%"
                           src={prod.image}
                           alt={prod.brand}
                         />
+                        </figure>
                       </Box>
                       <hr />
-
                       <Box  p="10px">
                         <Box>
                           <Text>{prod.brand}</Text>
@@ -250,9 +251,10 @@ function Mens() {
               })}
           </Grid>
 
-          <Grid
-            templateColumns={{base:"repeat(7,1fr)",sm:"repeat(10,1fr)",md:"repeat(20,1fr)"}}
-            
+          <Flex
+            justifyContent={"center"}
+            alignItems="center"
+            flexWrap={"wrap"}
             gap={5}
             my="30px"
           >
@@ -271,7 +273,7 @@ function Mens() {
                 );
               })}
               <Button  color={"#ffffff"} borderRadius={2} backgroundColor={"blue"} disabled={page===pagination.length} onClick={()=>setpage(page+1)}>Next</Button>
-          </Grid>
+          </Flex>
         </Box>
       )}
       <Footer />

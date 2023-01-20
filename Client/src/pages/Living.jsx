@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Flex,
   Grid,
   GridItem,
   Image,
@@ -50,7 +51,7 @@ function Living() {
           />
         </Box>
       ) : (
-        <Box w="90%" m=" 50px auto">
+        <Box w="90%" m="auto" my="25px">
           <Grid
             gridTemplateColumns={{
               base: "repeat(1, 1fr)",
@@ -64,26 +65,24 @@ function Living() {
                 return (
                   <Link to={`/product/${prod._id}`} key={prod._id}>
                     <GridItem
-                      h="450px"
-                      w="300px"
-                      border={"1px solid lightgrey"}
+                    h="450px"
+                    
+                    border={"1px solid lightgrey"}
                       backgroundColor={"#FFFFFF"}
-                      _hover={{
-                        boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                        height: "450px",
-                      }}
+                      _hover={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",height:"450px" }}
                     >
                       <Box borderBottom={"1px solid lightgrey"}>
+                        <figure>
                         <Image
                           h="300px"
-                          w="300px"
+                          w="100%"
                           src={prod.image}
                           alt={prod.brand}
                         />
+                        </figure>
                       </Box>
                       <hr />
-
-                      <Box p="10px">
+                      <Box  p="10px">
                         <Box>
                           <Text>{prod.brand}</Text>
                           <Box display="flex" alignItems="center">
@@ -135,32 +134,20 @@ function Living() {
               })}
           </Grid>
 
-          <Grid
-            templateColumns={{
-              base: "repeat(7,1fr)",
-              sm: "repeat(10,1fr)",
-              md: "repeat(20,1fr)",
-            }}
+          <Flex
+            justifyContent={"center"}
+            alignItems="center"
+            flexWrap={"wrap"}
             gap={5}
             my="30px"
           >
-            <Button
-              color={"#ffffff"}
-              borderRadius={2}
-              backgroundColor={"blue"}
-              disabled={page === 1}
-              onClick={() => setPage(page - 1)}
-            >
-              Prev
-            </Button>
+            <Button color={"#ffffff"} borderRadius={2} backgroundColor={"blue"} disabled={page===1} onClick={()=>setPage(page-1)}>Prev</Button>
             {pagination &&
               pagination.map((item, i) => {
                 return (
                   <Button
                     key={i}
-                    color={"#ffffff"}
-                    borderRadius={2}
-                    backgroundColor={"blue"}
+                    color={"#ffffff"} borderRadius={2} backgroundColor={"blue"}
                     disabled={page === i + 1}
                     onClick={() => setPage(i + 1)}
                   >
@@ -168,18 +155,10 @@ function Living() {
                   </Button>
                 );
               })}
-            <Button
-              color={"#ffffff"}
-              borderRadius={2}
-              backgroundColor={"blue"}
-              disabled={page === pagination.length}
-              onClick={() => setPage(page + 1)}
-            >
-              Next
-            </Button>
-          </Grid>
+              <Button  color={"#ffffff"} borderRadius={2} backgroundColor={"blue"} disabled={page===pagination.length} onClick={()=>setPage(page+1)}>Next</Button>
+          </Flex>
         </Box>
-      )}{" "}
+      )}
       <Footer />
     </Box>
   );
