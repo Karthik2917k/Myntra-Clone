@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Admin from "./pages/Admin/Admin";
 import AdminCart from "./pages/Admin/AdminCart";
-import OutofStock from "./pages/Admin/OutofStock";
 import Products from "./pages/Admin/Products";
 import Users from "./pages/Admin/Users";
 import Signin from "./pages/Auth/Signin";
@@ -33,7 +32,6 @@ function Allrotes() {
       <Route path="/products" element={<Products />} />
       <Route path="/users" element={<Users />} />
       <Route path="/admincart" element={<AdminCart />} />
-      <Route path="/outofstock" element={<OutofStock />} />
       
     </Routes>
   );
